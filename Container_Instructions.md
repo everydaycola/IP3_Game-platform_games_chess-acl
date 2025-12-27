@@ -84,30 +84,24 @@ The application uses RabbitMQ for real-time chess game event notifications. All 
 
 #### Game Events
 
-| Routing Key                           | Message Type          | Description                 | Triggered When |
-|---------------------------------------|-----------------------|-----------------------------|----------------|
-| `game.created`                        | GameCreatedMessage    | New chess game is created   | POST           |
-| `/api/games/{gameId}`                 |                       |                             |                |
-| `game.player.names.updated`           | GameUpdatedMessage    | Player names are updated    | PUT            |
-| `/api/games/{gameId}`                 |                       |                             |                |
-| `game.ended`                          | GameEndedMessage      | Game ends (checkmate/draw)  | PATCH          |
-| `/api/games/{gameId}/mate` or `/draw` |                       |                             |                |
-| `game.registered`                     | GameRegisteredMessage | Game registered to platform | POST           |
-| `/api/platform/register/{gameId}`     |                       |                             |                |
+| Routing Key                        | Message Type          | Description                 | Triggered When                              |
+|------------------------------------|-----------------------|-----------------------------|---------------------------------------------|
+| `game.created`                     | GameCreatedMessage    | New chess game is created   | POST `/api/games/{gameId}`                  |
+| `game.player.names.updated`        | GameUpdatedMessage    | Player names are updated    | PUT `/api/games/{gameId}`                   |
+| `game.ended`                       | GameEndedMessage      | Game ends (checkmate/draw)  | PATCH `/api/games/{gameId}/mate` or `/draw` |
+| `game.registered`                  | GameRegisteredMessage | Game registered to platform | POST `/api/platform/register/{gameId}`      |
 
 #### Move Events
 
-| Routing Key           | Message Type    | Description                | Triggered When |
-|-----------------------|-----------------|----------------------------|----------------|
-| `move.made`           | MoveMadeMessage | Regular chess move is made | POST           |
-| `/api/moves/{gameId}` |                 |                            |                |
+| Routing Key          | Message Type    | Description                | Triggered When             |
+|----------------------|-----------------|----------------------------|----------------------------|
+| `move.made`          | MoveMadeMessage | Regular chess move is made | POST `/api/moves/{gameId}` |
 
 #### Achievement Events
 
-| Routing Key                 | Message Type               | Description                 | Triggered When |
-|-----------------------------|----------------------------|-----------------------------|----------------|
-| `achievement.acquired`      | AchievementAcquiredMessage | Player earns an achievement |                |
-| Various game conditions met |                            |                             |                |
+| Routing Key            | Message Type               | Description                 | Triggered When              |
+|------------------------|----------------------------|-----------------------------|-----------------------------|
+| `achievement.acquired` | AchievementAcquiredMessage | Player earns an achievement | Various game conditions met |
 
 ### Message Content
 

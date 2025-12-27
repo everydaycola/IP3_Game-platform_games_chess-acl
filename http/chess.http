@@ -1,0 +1,67 @@
+# this file was AI generated based on Container_infrastructure.md. It might contain mistakes.
+
+### Variables
+@baseUrl = http://localhost:8080/api
+@gameId = {{ $random.uuid }}
+
+### 1. Create a new chess game
+POST {{baseUrl}}/games/{{gameId}}
+Content-Type: application/json
+
+{
+  "whitePlayer": "Magnus Carlsen",
+  "blackPlayer": "Hikaru Nakamura"
+}
+
+### 2. Get game details
+GET {{baseUrl}}/games/{{gameId}}
+
+### 3. Update player names
+PUT {{baseUrl}}/games/{{gameId}}
+Content-Type: application/json
+
+{
+  "whitePlayer": "Garry Kasparov",
+  "blackPlayer": "Anatoly Karpov"
+}
+
+### 4. Make a chess move
+# Example: Pawn to e4
+POST {{baseUrl}}/moves/{{gameId}}
+Content-Type: application/json
+
+{
+  "fromSquare": "e2",
+  "toSquare": "e4",
+  "sanNotation": "e4",
+  "player": "WHITE",
+  "moveNumber": 1
+}
+
+### 5. Register game to platform
+POST {{baseUrl}}/platform/register/{{gameId}}
+Content-Type: application/json
+
+{
+  "frontendUrl": "http://localhost:3333/game/{{gameId}}"
+}
+
+### 6. End game in checkmate
+PATCH {{baseUrl}}/games/{{gameId}}/mate
+Content-Type: application/json
+
+{
+  "winner": "WHITE",
+  "finalFen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+  "totalMoves": 4
+}
+
+### 7. End game in draw
+PATCH {{baseUrl}}/games/{{gameId}}/draw
+Content-Type: application/json
+
+{
+  "finalFen": "8/8/8/8/8/8/k7/7K w - - 0 1",
+  "totalMoves": 50,
+  "endReason": "STALEMATE"
+}

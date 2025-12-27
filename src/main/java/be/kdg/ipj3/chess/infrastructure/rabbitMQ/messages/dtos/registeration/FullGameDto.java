@@ -1,8 +1,5 @@
 package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.dtos.registeration;
 
-
-import be.kdg.gobackend.api.dto.registeration.AchievementDto;
-
 import java.util.List;
 import java.util.UUID;
 
