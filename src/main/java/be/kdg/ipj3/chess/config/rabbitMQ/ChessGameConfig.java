@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 public class ChessGameConfig {
-    @Bean("ChessGameUrl")
+    @Bean("chessGameUrl")
     RestClient externalAiCatalogTemplate(@Value("${chessGameUrl.url}") final String url) {
         return RestClient.create(url);
     }

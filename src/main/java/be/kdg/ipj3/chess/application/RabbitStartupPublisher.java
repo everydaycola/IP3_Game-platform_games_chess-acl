@@ -32,6 +32,7 @@ public class RabbitStartupPublisher {
                 log.error("Error while registering startup game");
                 return;
             }
+            log.info("Startup message request sent");
 
             final var f = futureRef.get();
             if (f != null) f.cancel(false);
