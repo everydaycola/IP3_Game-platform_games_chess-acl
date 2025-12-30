@@ -2,7 +2,7 @@ package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages;
 
 public record RegisterGameMessage(FullGameDto gameDto) {
 
-    public static RegisterGameMessage of(GameRegisterChessMessageDto gameDto) {
+    public static RegisterGameMessage of(GameRegisterChessMessageDto gameDto, String frontendUrl) {
         return new RegisterGameMessage(
                 new FullGameDto(
                        gameDto.registrationId(),
@@ -12,7 +12,7 @@ public record RegisterGameMessage(FullGameDto gameDto) {
                         gameDto.pictureUrl(),
                         gameDto.pictureUrl(),
                         "Strategy",
-                        gameDto.frontendUrl(),
+                        frontendUrl,
                         gameDto.availableAchievements().stream().map(AchievementDto::of).toList()
 
                 )

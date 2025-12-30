@@ -22,13 +22,13 @@ public class ExternalChessApiCatalog implements ChessApiCatalog {
 
     // this method asks the chess game to send a message with its registration info
     @Override
-    public boolean registerGame() {
+    public boolean registerGameOrThrow() throws ResourceAccessException {
         log.info("Asking chess to publish it's registration info");
         try {
             final var response = restClient.post()
-                    // todo I don't know what this UUID does, it has to be the game ID
-                    .uri("/platform/register/" + "fc7cc04a-5c7a-44e3-8159-797f01c49d87")
-                    .body(new ChessStatusBody("http://localhost:3333/game/fc7cc04a-5c7a-44e3-8159-797f01c49d87"))
+                    // I don't know what this UUID does (•_•)
+                    .uri("/platform/register/" + "00000000-0000-0000-0000-000000000000")
+                    .body(new ChessStatusBody("http://localhost:3333"))
                     .retrieve()
                     .body(ChessStatusResponse.class);
 
@@ -41,11 +41,9 @@ public class ExternalChessApiCatalog implements ChessApiCatalog {
                 log.error("No response from chess api");
                 return false;
             }
-
-            log.info(response.status());
-            log.error("Error while asking chess to publish registration info : {} | {}", response.status(), response.message());
-        } catch (final HttpStatusCodeException | ResourceAccessException e) {
-            log.error("Unknown error while asking chess to publish registration info : {}", e.getMessage());
+            log.warn("Unexpected response while asking chess to publish registration info : {} | {}", response.status(), response.message());
+        } catch (HttpStatusCodeException e) {
+            log.warn("Http error while asking chess to publish registration info : {} | {}", e.getStatusCode(), e.getResponseBodyAsString());
         }
         return false;
     }
