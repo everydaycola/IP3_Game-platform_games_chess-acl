@@ -1,5 +1,6 @@
 package be.kdg.ipj3.chess.infrastructure.chess;
 
+import be.kdg.ipj3.chess.config.GameRegisterProperties;
 import be.kdg.ipj3.chess.domain.repository.ChessApiCatalog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,9 +16,11 @@ import java.util.UUID;
 public class ExternalChessApiCatalog implements ChessApiCatalog {
 
     private final RestClient restClient;
+    private final GameRegisterProperties gameRegisterProperties;
 
-    public ExternalChessApiCatalog(@Qualifier("chessGameUrl") RestClient restClient) {
+    public ExternalChessApiCatalog(@Qualifier("chessGameUrl") RestClient restClient, GameRegisterProperties gameRegisterProperties) {
         this.restClient = restClient;
+        this.gameRegisterProperties = gameRegisterProperties;
     }
 
     // this method asks the chess game to send a message with its registration info
@@ -27,8 +30,8 @@ public class ExternalChessApiCatalog implements ChessApiCatalog {
         try {
             final var response = restClient.post()
                     // I don't know what this UUID does (•_•)
-                    .uri("/platform/register/" + "00000000-0000-0000-0000-000000000000")
-                    .body(new ChessStatusBody("http://localhost:3333"))
+                    .uri("/platform/register/" + gameRegisterProperties.getRegisterId())
+                    .body(new ChessStatusBody(gameRegisterProperties.getInternalUrl()))
                     .retrieve()
                     .body(ChessStatusResponse.class);
 

@@ -1,18 +1,20 @@
 package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages;
 
+import be.kdg.ipj3.chess.config.GameRegisterProperties;
+
 public record RegisterGameMessage(FullGameDto gameDto) {
 
-    public static RegisterGameMessage of(GameRegisterChessMessageDto gameDto, String frontendUrl) {
+    public static RegisterGameMessage of(GameRegisterChessMessageDto gameDto, GameRegisterProperties props) {
         return new RegisterGameMessage(
                 new FullGameDto(
                        gameDto.registrationId(),
-                       "Chess",
-                        "A classic game of strategy and skill.",
-                        4.99,
+                       props.getName(),
+                        props.getDescription(),
+                        props.getPrice(),
                         gameDto.pictureUrl(),
                         gameDto.pictureUrl(),
-                        "Strategy",
-                        frontendUrl,
+                        props.getGenres(),
+                        props.getExternalUrl(),
                         gameDto.availableAchievements().stream().map(AchievementDto::of).toList()
 
                 )

@@ -1,5 +1,6 @@
 package be.kdg.ipj3.chess.infrastructure.rabbitMQ;
 
+import be.kdg.ipj3.chess.config.GameRegisterProperties;
 import be.kdg.ipj3.chess.config.rabbitMQ.RabbitMQProperties;
 import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.GameRegisterChessMessageDto;
 import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.RegisterGameMessage;
@@ -21,7 +22,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class RegistrationMessageHandler {
 
     private final RabbitTemplate rabbitTemplate;
-    private final RabbitMQProperties properties;
+    private final RabbitMQProperties rabbitMQProperties;
+    private final GameRegisterProperties gameRegisterProperties;
     private final UrlChecker urlChecker;
     private final TaskScheduler taskScheduler;
 
@@ -33,16 +35,16 @@ public class RegistrationMessageHandler {
 
         final var future = taskScheduler.scheduleWithFixedDelay(() -> {
             try {
-                if (!urlChecker.isUrlReachable(properties.getInternalGameUrl())) {
-                    log.warn("Chess game not registered yet; url not reachable internally: {}, external is {}", properties.getInternalGameUrl(), properties.getExternalGameUrl());
+                if (!urlChecker.isUrlReachable(gameRegisterProperties.getInternalUrl())) {
+                    log.warn("Chess game not registered yet; url not reachable internally: {}, external is {}", gameRegisterProperties.getInternalUrl(), gameRegisterProperties.getExternalUrl());
                     return;
                 }
 
-                final var registerGameMessage = RegisterGameMessage.of(message, properties.getExternalGameUrl());
+                final var registerGameMessage = RegisterGameMessage.of(message, gameRegisterProperties);
 
                 rabbitTemplate.convertAndSend(
-                        properties.getExchangeName(),
-                        properties.getRegisterGameBinding(),
+                        rabbitMQProperties.getExchangeName(),
+                        rabbitMQProperties.getRegisterGameBinding(),
                         registerGameMessage
                 );
                 log.info("Startup game message sent to RabbitMQ: {}", registerGameMessage);
@@ -51,7 +53,6 @@ public class RegistrationMessageHandler {
                 if (f != null) f.cancel(false);
 
             } catch (AmqpException e) {
-                // Don’t kill the scheduler thread; just log and let it retry on next tick.
                 log.error("Error while trying to register startup game (will retry)", e);
             }
         }, Duration.ofSeconds(5));
