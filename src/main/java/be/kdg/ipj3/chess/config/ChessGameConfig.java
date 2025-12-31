@@ -1,4 +1,4 @@
-package be.kdg.ipj3.chess.config.rabbitMQ;
+package be.kdg.ipj3.chess.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
