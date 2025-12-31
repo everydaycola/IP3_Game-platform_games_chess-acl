@@ -33,4 +33,13 @@ public class RabbitMQTopology {
     @Bean Binding registerGameBingingChess(){
         return BindingBuilder.bind(registerGameQueueChess()).to(chessExchange()).with(properties.getRegisterGameBindingChess());
     }
+
+    //UNLOCK ACHIEVEMENT CHESS (the queue for recieving the unlocking message from chess.)
+    @Bean Queue unlockAchievementQueueChess(){
+        return QueueBuilder.nonDurable(properties.getUnlockAchievementQueueChess()).build();
+    }
+
+    @Bean Binding unlockAchievementBindingChess(){
+        return BindingBuilder.bind(unlockAchievementQueueChess()).to(chessExchange()).with(properties.getUnlockAchievementBindingChess());
+    }
 }

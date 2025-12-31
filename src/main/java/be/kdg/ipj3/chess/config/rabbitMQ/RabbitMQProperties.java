@@ -16,4 +16,6 @@ public class RabbitMQProperties {
     private final String exchangeNameChess;
     private final String registerGameQueueChess;
     private final String registerGameBindingChess;
+    private final String unlockAchievementBindingChess;
+    private final String unlockAchievementQueueChess;
 }
