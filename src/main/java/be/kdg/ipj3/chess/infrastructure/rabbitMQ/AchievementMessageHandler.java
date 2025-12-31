@@ -17,7 +17,7 @@ public class AchievementMessageHandler {
     private final RabbitTemplate rabbitTemplate;
     private final RabbitMQProperties rabbitMQProperties;
 
-    @RabbitListener(queues = "${spring.rabbitmq.fourteengames.unlock-achievement-binding}")
+    @RabbitListener(queues = "${spring.rabbitmq.fourteengames.unlock-achievement-queue-chess}")
     void onUnlockAchievement(AchievementUnlockedChessMessage message) {
         log.info("Received message: {}", message);
 
