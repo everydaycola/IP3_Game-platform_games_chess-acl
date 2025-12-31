@@ -1,8 +1,8 @@
 package be.kdg.ipj3.chess.infrastructure.rabbitMQ;
 
 import be.kdg.ipj3.chess.config.rabbitMQ.RabbitMQProperties;
-import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.AchievementUnlockedChessMessage;
-import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.AchievementUnlockedMessage;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess.AchievementUnlockedChessMessage;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.platform.AchievementUnlockedMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

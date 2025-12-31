@@ -1,6 +1,7 @@
-package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages;
+package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.platform;
 
 import be.kdg.ipj3.chess.domain.achievement.AchievementIdMapper;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess.AchievementUnlockedChessMessage;
 
 import java.util.UUID;
 
