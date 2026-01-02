@@ -84,23 +84,23 @@ The application uses RabbitMQ for real-time chess game event notifications. All 
 
 #### Game Events
 
-| Routing Key | Message Type | Description | Triggered When |
-|-------------|--------------|-------------|----------------|
-| `game.created` | GameCreatedMessage | New chess game is created | POST `/api/games/{gameId}` |
-| `game.player.names.updated` | GameUpdatedMessage | Player names are updated | PUT `/api/games/{gameId}` |
-| `game.ended` | GameEndedMessage | Game ends (checkmate/draw) | PATCH `/api/games/{gameId}/mate` or `/draw` |
-| `game.registered` | GameRegisteredMessage | Game registered to platform | POST `/api/platform/register/{gameId}` |
+| Routing Key                        | Message Type          | Description                 | Triggered When                              |
+|------------------------------------|-----------------------|-----------------------------|---------------------------------------------|
+| `game.created`                     | GameCreatedMessage    | New chess game is created   | POST `/api/games/{gameId}`                  |
+| `game.player.names.updated`        | GameUpdatedMessage    | Player names are updated    | PUT `/api/games/{gameId}`                   |
+| `game.ended`                       | GameEndedMessage      | Game ends (checkmate/draw)  | PATCH `/api/games/{gameId}/mate` or `/draw` |
+| `game.registered`                  | GameRegisteredMessage | Game registered to platform | POST `/api/platform/register/{gameId}`      |
 
 #### Move Events
 
-| Routing Key | Message Type | Description | Triggered When |
-|-------------|--------------|-------------|----------------|
-| `move.made` | MoveMadeMessage | Regular chess move is made | POST `/api/moves/{gameId}` |
+| Routing Key          | Message Type    | Description                | Triggered When             |
+|----------------------|-----------------|----------------------------|----------------------------|
+| `move.made`          | MoveMadeMessage | Regular chess move is made | POST `/api/moves/{gameId}` |
 
 #### Achievement Events
 
-| Routing Key | Message Type | Description | Triggered When |
-|-------------|--------------|-------------|----------------|
+| Routing Key            | Message Type               | Description                 | Triggered When              |
+|------------------------|----------------------------|-----------------------------|-----------------------------|
 | `achievement.acquired` | AchievementAcquiredMessage | Player earns an achievement | Various game conditions met |
 
 ### Message Content
@@ -260,16 +260,16 @@ The chess game includes an achievement system that rewards players for various i
 
 ### Available Achievements
 
-| Achievement | Code | Description | Trigger Condition |
-|-------------|------|-------------|------------------|
-| **First Blood** | `FIRST_BLOOD` | Capture your opponent's first piece | Make any capturing move (SAN contains "x") |
-| **Pawn Power** | `PAWN_POWER` | Promoted a pawn | Make a pawn promotion move (SAN contains "=") |
-| **Speedy Victory** | `SPEEDY_VICTORY` | Win in under 20 moves | Win a game with fewer than 20 total moves |
-| **Speed Demon** | `SPEED_DEMON` | Make a move in under 5 seconds | Make a move within 5 seconds of the previous move |
-| **Winner Winner Chicken Dinner** | `WINNER_WINNER_CHICKEN_DINNER` | Winner winner chicken dinner | Win any game (awarded once per player) |
-| **Castle Time** | `CASTLE_TIME` | Castle kingside or queenside | Perform castling move (SAN contains "O") |
-| **Rookie Move** | `ROOKIE_MOVE` | Move your rook for the first time | Make any rook move (SAN contains "R") |
-| **Pawn Storm** | `PAWN_STORM` | Make 3 pawn moves in a row | Make 3 consecutive pawn moves as the same player |
+| Achievement                      | Code                           | Description                         | Trigger Condition                                 |
+|----------------------------------|--------------------------------|-------------------------------------|---------------------------------------------------|
+| **First Blood**                  | `FIRST_BLOOD`                  | Capture your opponent's first piece | Make any capturing move (SAN contains "x")        |
+| **Pawn Power**                   | `PAWN_POWER`                   | Promoted a pawn                     | Make a pawn promotion move (SAN contains "=")     |
+| **Speedy Victory**               | `SPEEDY_VICTORY`               | Win in under 20 moves               | Win a game with fewer than 20 total moves         |
+| **Speed Demon**                  | `SPEED_DEMON`                  | Make a move in under 5 seconds      | Make a move within 5 seconds of the previous move |
+| **Winner Winner Chicken Dinner** | `WINNER_WINNER_CHICKEN_DINNER` | Winner winner chicken dinner        | Win any game (awarded once per player)            |
+| **Castle Time**                  | `CASTLE_TIME`                  | Castle kingside or queenside        | Perform castling move (SAN contains "O")          |
+| **Rookie Move**                  | `ROOKIE_MOVE`                  | Move your rook for the first time   | Make any rook move (SAN contains "R")             |
+| **Pawn Storm**                   | `PAWN_STORM`                   | Make 3 pawn moves in a row          | Make 3 consecutive pawn moves as the same player  |
 
 
 ## Author
