@@ -1,0 +1,31 @@
+# these are(/this is) the request(s) that the platform will do to the ACl before opening a game.
+
+@ClientId=chess-acl
+@ClientSecret=DjNhCzraGfJ4gfd2NJKwQ4OZtLVtipsP
+@player1username=123
+@player1password=123
+
+
+### Get access token
+POST http://localhost:8180/realms/FourteenGames/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{ClientId}}&client_secret={{ClientSecret}}&username={{player1username}}&password={{player1password}}&grant_type=password&scope=openid
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+### game against an AI
+POST http://localhost:8083/go/api/matches/ai
+Authorization: Bearer {{access_token}}
+
+
+### game against an player (you need to find the correct id of your opponent yourself.)
+POST http://localhost:8083/go/api/matches/player
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "opponentId": "550e8400-e29b-41d4-a716-446655440000"
+}
