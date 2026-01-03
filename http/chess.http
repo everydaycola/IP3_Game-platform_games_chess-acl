@@ -1,16 +1,19 @@
 # this file was AI generated based on Container_infrastructure.md. It might contain mistakes.
 
 ### Variables
-@baseUrl = http://localhost:8070/api
-@gameId = {{ $random.uuid }}
+@baseUrl = http://localhost:8080/api
+#@gameId = {{ $random.uuid }}
+@gameId = 8496c496-a884-48ed-9bb3-7c3aa50fb8ca
 
 ### 1. Create a new chess game
 POST {{baseUrl}}/games/{{gameId}}
 Content-Type: application/json
 
 {
-  "whitePlayer": "Magnus Carlsen",
-  "blackPlayer": "Hikaru Nakamura"
+  "whitePlayerName": "Garry Kasparov",
+  "whitePlayerId": "11111111-1111-1111-1111-111111111111",
+  "blackPlayerName": "Magnus Carlsen",
+  "blackPlayerId": "22222222-2222-2222-2222-222222222222"
 }
 
 ### 2. Get game details
@@ -21,8 +24,10 @@ PUT {{baseUrl}}/games/{{gameId}}
 Content-Type: application/json
 
 {
-  "whitePlayer": "Garry Kasparov",
-  "blackPlayer": "Anatoly Karpov"
+  "whitePlayerName": "Garry Kasparov",
+  "blackPlayerName": "Anatoly Karpov",
+  "whitePlayerId": "11111111-1111-1111-1111-111111111111",
+  "blackPlayerId": "22222222-2222-2222-2222-222222222222"
 }
 
 ### 4. Make a chess move
@@ -43,7 +48,7 @@ POST {{baseUrl}}/platform/register/{{gameId}}
 Content-Type: application/json
 
 {
-  "frontendUrl": "http://localhost:3333/game/{{gameId}}"
+  "frontendUrl": "https://localhost:3333/game/{{gameId}}"
 }
 
 ### 6. End game in checkmate
