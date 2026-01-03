@@ -1,4 +1,4 @@
-package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages;
+package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,5 +8,4 @@ public record GameRegisterChessMessageDto(
         String frontendUrl,
         String pictureUrl,
         List <AchievementChessDto> availableAchievements
-
 ) {}

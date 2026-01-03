@@ -25,12 +25,30 @@ public class RabbitMQTopology {
         return BindingBuilder.bind(registerGameQueue()).to(xivExchange()).with(properties.getRegisterGameBinding());
     }
 
-    //REGISTER GAME CHESS (the queue for recieving the registering message from chess.)
+    //REGISTER GAME CHESS (the queue for receiving the registering message from chess.)
     @Bean Queue registerGameQueueChess(){
         return QueueBuilder.nonDurable(properties.getRegisterGameQueueChess()).build();
     }
 
     @Bean Binding registerGameBingingChess(){
         return BindingBuilder.bind(registerGameQueueChess()).to(chessExchange()).with(properties.getRegisterGameBindingChess());
+    }
+
+    //GAME CREATED CHESS (the queue for receiving the game-created message from chess.)
+    @Bean Queue gameCreatedQueueChess(){
+        return QueueBuilder.nonDurable(properties.getGameCreatedQueueChess()).build();
+    }
+
+    @Bean Binding gameCreatedBindingChess(){
+        return BindingBuilder.bind(gameCreatedQueueChess()).to(chessExchange()).with(properties.getGameCreatedBindingChess());
+    }
+
+    //UNLOCK ACHIEVEMENT CHESS (the queue for receiving the unlocking message from chess.)
+    @Bean Queue unlockAchievementQueueChess(){
+        return QueueBuilder.nonDurable(properties.getUnlockAchievementQueueChess()).build();
+    }
+
+    @Bean Binding unlockAchievementBindingChess(){
+        return BindingBuilder.bind(unlockAchievementQueueChess()).to(chessExchange()).with(properties.getUnlockAchievementBindingChess());
     }
 }

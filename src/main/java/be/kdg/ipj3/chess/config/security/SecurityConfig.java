@@ -1,4 +1,4 @@
-package be.kdg.ipj3.chess.config;
+package be.kdg.ipj3.chess.config.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()) // this makes everything require authorisation
                 .sessionManagement(mgmt -> mgmt.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwtAuthenticationConverter()))

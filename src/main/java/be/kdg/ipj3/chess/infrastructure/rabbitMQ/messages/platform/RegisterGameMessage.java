@@ -1,6 +1,7 @@
-package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages;
+package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.platform;
 
 import be.kdg.ipj3.chess.config.GameRegisterProperties;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess.GameRegisterChessMessageDto;
 
 public record RegisterGameMessage(FullGameDto gameDto) {
 

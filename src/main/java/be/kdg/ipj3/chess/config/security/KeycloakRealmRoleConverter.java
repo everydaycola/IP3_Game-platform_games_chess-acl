@@ -1,4 +1,4 @@
-package be.kdg.ipj3.chess.config;
+package be.kdg.ipj3.chess.config.security;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;

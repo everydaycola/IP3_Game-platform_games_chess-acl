@@ -1,4 +1,7 @@
-package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages;
+package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.platform;
+
+import be.kdg.ipj3.chess.domain.achievement.AchievementIdMapper;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess.AchievementChessDto;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -6,7 +9,7 @@ import java.util.UUID;
 public record AchievementDto(UUID id, String name, String description) {
     public static AchievementDto of(AchievementChessDto achievement) {
         return new AchievementDto(
-                UUID.randomUUID(),
+                AchievementIdMapper.fromCode(achievement.code()),
                 achievement.code().toLowerCase(Locale.ROOT).replace("_", " "),
                 achievement.description()
         );

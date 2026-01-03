@@ -1,9 +1,10 @@
-package be.kdg.ipj3.chess.infrastructure.rabbitMQ;
+package be.kdg.ipj3.chess.infrastructure.rabbitMQ.handlers;
 
 import be.kdg.ipj3.chess.config.GameRegisterProperties;
 import be.kdg.ipj3.chess.config.rabbitMQ.RabbitMQProperties;
-import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.GameRegisterChessMessageDto;
-import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.RegisterGameMessage;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.UrlChecker;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess.GameRegisterChessMessageDto;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.platform.RegisterGameMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpException;
