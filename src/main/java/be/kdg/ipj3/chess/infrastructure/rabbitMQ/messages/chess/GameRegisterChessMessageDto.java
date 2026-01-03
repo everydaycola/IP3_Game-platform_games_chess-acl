@@ -8,5 +8,4 @@ public record GameRegisterChessMessageDto(
         String frontendUrl,
         String pictureUrl,
         List <AchievementChessDto> availableAchievements
-
 ) {}
