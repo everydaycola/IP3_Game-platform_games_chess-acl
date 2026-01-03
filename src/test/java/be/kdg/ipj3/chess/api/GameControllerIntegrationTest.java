@@ -33,7 +33,7 @@ class GameControllerIntegrationTest {
             final var gameId = "00000000-0000-0000-0000-000000000001";
 
             // act
-            mockMvc.perform(post("/go/api/matches/ai")
+            mockMvc.perform(post("/go/api/matches/local")
                     // arrange
                             .with(jwt()
                                     .jwt(jwt -> jwt
@@ -58,7 +58,7 @@ class GameControllerIntegrationTest {
             final var gameId = "00000000-0000-0000-0000-000000000001";
 
             // act
-            mockMvc.perform(post("/go/api/matches/player")
+            mockMvc.perform(post("/go/api/matches/online")
                     // arrange
                             .contentType("application/json")
                             .content("{\"opponentId\": \"" + player2Id + "\"}")
@@ -84,7 +84,7 @@ class GameControllerIntegrationTest {
         @Test
         void registerGameAgainstAiUnauthorizedFails() throws Exception {
             // act
-            mockMvc.perform(post("/go/api/matches/ai"))
+            mockMvc.perform(post("/go/api/matches/local"))
                     // assert
                     .andExpect(status().isUnauthorized());
         }
@@ -92,7 +92,7 @@ class GameControllerIntegrationTest {
         @Test
         void registerGameAgainstPlayerUnauthorizedFails() throws Exception {
             // act
-            mockMvc.perform(post("/go/api/matches/player")
+            mockMvc.perform(post("/go/api/matches/online")
                     // arrange
                             .contentType("application/json")
                             .content("{\"opponentId\": \"" + UUID.randomUUID() + "\"}"))

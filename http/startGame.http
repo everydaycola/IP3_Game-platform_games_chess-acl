@@ -16,13 +16,13 @@ client_id={{ClientId}}&client_secret={{ClientSecret}}&username={{player1username
     client.global.set("access_token", response.body.access_token);
 %}
 
-### game against an AI
-POST http://localhost:8083/go/api/matches/ai
+### game against yourself locally
+POST http://localhost:8083/go/api/matches/local
 Authorization: Bearer {{access_token}}
 
 
-### game against an player (you need to find the correct id of your opponent yourself.)
-POST http://localhost:8083/go/api/matches/player
+### game against a "real" player (you need to find the correct id of your opponent yourself.)
+POST http://localhost:8083/go/api/matches/online
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 

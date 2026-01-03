@@ -20,15 +20,15 @@ public class GameController {
 
     private final GameService gameService;
 
-    @PostMapping("/ai")
-    public ResponseEntity<GameCreatedDto> registerGameAgainstAi(@AuthenticationPrincipal Jwt token){
+    @PostMapping("/local")
+    public ResponseEntity<GameCreatedDto> registerGameAgainstYourself(@AuthenticationPrincipal Jwt token){
         log.info("Starting a new game");
         final var player1Id = PlatformPlayerId.fromToken(token);
         final var state = gameService.registerGame(player1Id, null);
         return ResponseEntity.ok(state);
     }
 
-    @PostMapping("/player")
+    @PostMapping("/online")
     public ResponseEntity<GameCreatedDto> registerGameAgainstPlayer(@AuthenticationPrincipal Jwt token, @RequestBody NewGameDto newMatchDto){
         log.info("Starting a new game");
         final var player1Id = PlatformPlayerId.fromToken(token);
@@ -36,6 +36,4 @@ public class GameController {
         final var state = gameService.registerGame(player1Id,player2Id);
         return ResponseEntity.ok(state);
     }
-
-
 }
