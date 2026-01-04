@@ -1,4 +1,4 @@
-package be.kdg.ipj3.chess.infrastructure.chess.dto;
+package be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess;
 
 import java.util.UUID;
 
