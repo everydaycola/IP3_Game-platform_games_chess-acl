@@ -18,6 +18,16 @@ public class RabbitMQProperties {
     private final String registerGameBindingChess;
     private final String gameCreatedBindingChess; // starting a game
     private final String gameCreatedQueueChess;
+    private final String gameEndedBindingChess; // ending a game
+    private final String gameEndedQueueChess;
     private final String unlockAchievementBindingChess; // unlocking an achievement
     private final String unlockAchievementQueueChess;
+
+    private final String analyticsExchange;
+    private final String analyticsGameStartedBinding;
+    private final String analyticsGameEndedBinding;
+    private final String analyticsGameAbandonedBinding;
+    private final String analyticsSessionStartedBinding;
+    private final String analyticsWinnerDeclaredBinding;
+    private final String analyticsAchievementUnlockedBinding;
 }
