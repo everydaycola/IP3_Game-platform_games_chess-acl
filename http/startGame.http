@@ -17,12 +17,12 @@ client_id={{ClientId}}&client_secret={{ClientSecret}}&username={{player1username
 %}
 
 ### game against yourself locally
-POST http://localhost:8083/go/api/matches/local
+POST http://localhost:8083/chess-acl/api/matches/local
 Authorization: Bearer {{access_token}}
 
 
 ### game against a "real" player (you need to find the correct id of your opponent yourself.)
-POST http://localhost:8083/go/api/matches/online
+POST http://localhost:8083/chess-acl/api/matches/online
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/go/api/matches")
+@RequestMapping("/chess-acl/api/matches")
 public class GameController {
 
     private final GameService gameService;
