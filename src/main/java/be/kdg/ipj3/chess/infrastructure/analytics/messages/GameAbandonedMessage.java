@@ -26,7 +26,7 @@ public record GameAbandonedMessage(
                 "chess",
                 playerId,
                 gameId,
-                (int) LocalDateTime.now().atOffset(ZoneOffset.UTC).until(LocalDateTime.now(), ChronoUnit.SECONDS),
+                0,
                 false,
                 reason,
                 LocalDateTime.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT)

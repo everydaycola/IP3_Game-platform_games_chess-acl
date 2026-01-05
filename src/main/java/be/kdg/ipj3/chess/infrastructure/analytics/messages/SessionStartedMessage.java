@@ -1,5 +1,8 @@
 package be.kdg.ipj3.chess.infrastructure.analytics.messages;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public record SessionStartedMessage(
@@ -15,7 +18,7 @@ public record SessionStartedMessage(
     public SessionStartedMessage(UUID session_id, UUID game_id, UUID player_id) {
         this(
                 "session_started",
-                "LocalDateTime.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT)",
+                LocalDateTime.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT),
                 player_id,
                 session_id,
                 game_id,
