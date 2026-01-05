@@ -1,0 +1,48 @@
+package be.kdg.ipj3.chess.registration.application;
+
+import be.kdg.ipj3.chess.game.domain.ChessApiCatalog;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
+
+import java.time.Duration;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.atomic.AtomicReference;
+
+@Slf4j
+@Component
+@Profile("!test")
+@RequiredArgsConstructor
+public class RabbitStartupPublisher {
+
+    private final TaskScheduler taskScheduler;
+    private final ChessApiCatalog chessApiCatalog;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void publishStartupEvent() {
+
+        final var futureRef = new AtomicReference<ScheduledFuture<?>>();
+
+        final var future = taskScheduler.scheduleWithFixedDelay(() -> {
+            try {
+                if (!chessApiCatalog.registerGameOrThrow()) {
+                    log.error("Error while registering startup game");
+                    return;
+                }
+                log.info("Startup message request sent");
+
+                final var f = futureRef.get();
+                if (f != null) f.cancel(false);
+            } catch (final ResourceAccessException e) {
+                log.warn("Chess service is not (yet) reachable, trying again in 5 seconds.: {}", e.getMessage());
+            }
+        }, Duration.ofSeconds(5));
+
+        futureRef.set(future);
+    }
+}
