@@ -4,7 +4,10 @@ import be.kdg.ipj3.chess.domain.exception.NotFoundException;
 import be.kdg.ipj3.chess.domain.game.GameId;
 import be.kdg.ipj3.chess.domain.player.ChessPlayerId;
 import be.kdg.ipj3.chess.domain.repository.PlayerRepository;
-import be.kdg.ipj3.chess.infrastructure.chess.dto.GameCreatedMessageDto;
+import be.kdg.ipj3.chess.infrastructure.analytics.AnalyticsMessagePublisher;
+import be.kdg.ipj3.chess.infrastructure.analytics.messages.GameStartedMessage;
+import be.kdg.ipj3.chess.infrastructure.analytics.messages.SessionStartedMessage;
+import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess.GameCreatedMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class GameStartMessageHandler {
 
     private final PlayerRepository playerRepository;
+    private final AnalyticsMessagePublisher analyticsMessagePublisher;
 
     @RabbitListener(queues = "${spring.rabbitmq.fourteengames.game-created-queue-chess}")
     void onGameCreated(GameCreatedMessageDto message) {
@@ -41,5 +45,21 @@ public class GameStartMessageHandler {
         } catch (NotFoundException e) {
             log.warn("No player 2 found for gameId (not a problem if player 2 is AI) {}: {}", gameId.id(), e.getMessage(), e);
         }
+
+        analyticsMessagePublisher.publishGameStartedMessage(
+                new GameStartedMessage(
+                        message.gameId(),
+                        message.blackPlayerId(),
+                        message.gameId()
+                )
+        );
+
+        analyticsMessagePublisher.publishSessionStartedMessage(
+                new SessionStartedMessage(
+                        message.gameId(),
+                        message.gameId(),
+                        message.blackPlayerId()
+                )
+        );
     }
 }

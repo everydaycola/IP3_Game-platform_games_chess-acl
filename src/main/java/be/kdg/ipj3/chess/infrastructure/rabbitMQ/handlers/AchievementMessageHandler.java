@@ -6,6 +6,8 @@ import be.kdg.ipj3.chess.domain.exception.NotFoundException;
 import be.kdg.ipj3.chess.domain.game.GameId;
 import be.kdg.ipj3.chess.domain.player.ChessPlayerId;
 import be.kdg.ipj3.chess.domain.repository.PlayerRepository;
+import be.kdg.ipj3.chess.infrastructure.analytics.AnalyticsMessagePublisher;
+import be.kdg.ipj3.chess.infrastructure.analytics.messages.AnalyticsAchievementUnlockedMessage;
 import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.chess.AchievementUnlockedChessMessage;
 import be.kdg.ipj3.chess.infrastructure.rabbitMQ.messages.platform.AchievementUnlockedMessage;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class AchievementMessageHandler {
     private final RabbitTemplate rabbitTemplate;
     private final RabbitMQProperties rabbitMQProperties;
     private final PlayerRepository playerRepository;
+    private final AnalyticsMessagePublisher analyticsMessagePublisher;
 
     // the achievement contains the ID that chess uses, we need the id that we use.
     // so we look for the respective id saved in our DB upon startup.
@@ -46,12 +49,24 @@ public class AchievementMessageHandler {
                     rabbitMQProperties.getUnlockAchievementBinding(),
                     achievement
             );
-            log.info("Achievement unlock message sent to RabbitMQ: {}", achievement);
+            log.info("Achievement unlock message sent to Analytics: {}", achievement);
+
+            analyticsMessagePublisher.publishAchievementUnlockedMessage(
+                    new AnalyticsAchievementUnlockedMessage(
+                            achievement.userId(),
+                            achievement.achievementId(),
+                            message.achievementType()
+                    )
+            );
+            log.info("Achievement unlock message published to Analytics");
         } catch (NotFoundException e) {
             log.warn("No player found for chessId {} and gameId {}: {}", playerId.id(), gameId.id(), e.getMessage());
         } catch (AmqpException e) {
             log.error("Error while trying to send achievement unlock message: {}", e.getMessage());
         }
+
+
+
 
     }
 
