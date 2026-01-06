@@ -11,6 +11,8 @@ public class GameRegisterProperties {
     private final String internalUrl;
     private final String externalUrl;
     private final String registerId;
+    private final String aiStartGameEndpoint;
+    private final String startGameEndpoint;
 
     private final String name;
     private final String description;

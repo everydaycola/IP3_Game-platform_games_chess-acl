@@ -33,8 +33,10 @@ class GameControllerIntegrationTest {
             final var gameId = "00000000-0000-0000-0000-000000000001";
 
             // act
-            mockMvc.perform(post("/chess-acl/api/matches/local")
+            mockMvc.perform(post("/chess-acl/api/matches")
                     // arrange
+                            .contentType("application/json")
+                            .content("{\"player1Id\": \"" + player1Id + "\", \"player2Id\": null}")
                             .with(jwt()
                                     .jwt(jwt -> jwt
                                             .subject(player1Id)
@@ -45,7 +47,7 @@ class GameControllerIntegrationTest {
                             ))
                     // assert
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.gameId").value(gameId))
+                    .andExpect(jsonPath("$.id").value(gameId))
                     .andExpect(jsonPath("$.whitePlayerId").value(player1Id))
                     .andExpect(jsonPath("$.blackPlayerId").value(player1Id));
         }
@@ -58,10 +60,10 @@ class GameControllerIntegrationTest {
             final var gameId = "00000000-0000-0000-0000-000000000001";
 
             // act
-            mockMvc.perform(post("/chess-acl/api/matches/online")
+            mockMvc.perform(post("/chess-acl/api/matches")
                     // arrange
                             .contentType("application/json")
-                            .content("{\"opponentId\": \"" + player2Id + "\"}")
+                            .content("{\"player1Id\": \"" + player1Id + "\", \"player2Id\": \"" + player2Id + "\"}")
                             .with(jwt()
                                     .jwt(jwt -> jwt
                                             .subject(player1Id)
@@ -72,7 +74,7 @@ class GameControllerIntegrationTest {
                             ))
                     // assert
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.gameId").value(gameId))
+                    .andExpect(jsonPath("$.id").value(gameId))
                     .andExpect(jsonPath("$.whitePlayerId").value(player1Id))
                     .andExpect(jsonPath("$.blackPlayerId").value(player2Id));
         }
@@ -84,7 +86,7 @@ class GameControllerIntegrationTest {
         @Test
         void registerGameAgainstAiUnauthorizedFails() throws Exception {
             // act
-            mockMvc.perform(post("/chess-acl/api/matches/local"))
+            mockMvc.perform(post("/chess-acl/api/matches"))
                     // assert
                     .andExpect(status().isUnauthorized());
         }
@@ -92,10 +94,10 @@ class GameControllerIntegrationTest {
         @Test
         void registerGameAgainstPlayerUnauthorizedFails() throws Exception {
             // act
-            mockMvc.perform(post("/chess-acl/api/matches/online")
+            mockMvc.perform(post("/chess-acl/api/matches")
                     // arrange
                             .contentType("application/json")
-                            .content("{\"opponentId\": \"" + UUID.randomUUID() + "\"}"))
+                            .content("{\"player1Id\": \"" + UUID.randomUUID() + "\", \"player2Id\": \"" + UUID.randomUUID() + "\"}"))
                     // assert
                     .andExpect(status().isUnauthorized());
         }

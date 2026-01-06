@@ -29,7 +29,7 @@ public class GameService {
     //  Currently, the game id is fixed to (uuid) 000...0001
     //  It does not really create the game as, when chess starts, it makes the anyway game, regardless of if it already exists.
     public GameCreatedDto registerGame(PlatformPlayerId player1Id, PlatformPlayerId player2Id) {
-        log.info("Registering a new game between {} and {} to the ACL", player1Id, (player2Id == null ? "themself" : player2Id));
+        log.info("Registering a new game between {} and {} to the ACL", player1Id, (player2Id == player1Id ? "themself" : player2Id));
 
         playerRepository.save(new Player(
                 player1Id,
@@ -37,27 +37,18 @@ public class GameService {
                 new GameId(registerId),
                 true
         ));
-        if (player2Id != null)
-            playerRepository.save(new Player(
-                    player2Id,
-                    null,
-                    new GameId(registerId),
-                    false
-            ));
-        else
-            // if the game is local, the player gets achievements for both sides
-            playerRepository.save(new Player(
-                    player1Id,
-                    null,
-                    new GameId(registerId),
-                    false
-            ));
-
+        // if the game is local, the player gets achievements for both sides
+        playerRepository.save(new Player(
+                player2Id,
+                null,
+                new GameId(registerId),
+                false
+        ));
 
         return new GameCreatedDto(
                 registerId,
                 player1Id.id(),
-                player2Id == null ? player1Id.id() : player2Id.id()
+                player2Id.id()
         );
     }
 }
