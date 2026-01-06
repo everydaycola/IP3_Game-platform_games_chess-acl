@@ -3,6 +3,7 @@ package be.kdg.ipj3.chess.game.infrastructure.messages;
 import be.kdg.ipj3.chess.achievement.infrastructure.messages.AchievementDto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public record FullGameDto(
@@ -17,7 +18,8 @@ public record FullGameDto(
         String icon,
         String genre,
         String url,
-        List<AchievementDto> achievements
+        List<AchievementDto> achievements,
+        Map<String, Object> configurableSettings
 ) {
 
 

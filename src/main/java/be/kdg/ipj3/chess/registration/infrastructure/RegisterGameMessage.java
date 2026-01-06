@@ -4,6 +4,8 @@ import be.kdg.ipj3.chess.achievement.infrastructure.messages.AchievementDto;
 import be.kdg.ipj3.chess.game.infrastructure.messages.FullGameDto;
 import be.kdg.ipj3.chess.shared.config.GameRegisterProperties;
 
+import java.util.HashMap;
+
 public record RegisterGameMessage(FullGameDto gameDto) {
 
     public static RegisterGameMessage of(GameRegisterChessMessageDto gameDto, GameRegisterProperties props) {
@@ -20,8 +22,8 @@ public record RegisterGameMessage(FullGameDto gameDto) {
                         gameDto.pictureUrl(),
                         props.getGenres(),
                         props.getExternalUrl(),
-                        gameDto.availableAchievements().stream().map(AchievementDto::of).toList()
-
+                        gameDto.availableAchievements().stream().map(AchievementDto::of).toList(),
+                        new HashMap<>()
                 )
         );
     }
