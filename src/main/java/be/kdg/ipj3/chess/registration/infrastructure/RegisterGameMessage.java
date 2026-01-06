@@ -11,6 +11,9 @@ public record RegisterGameMessage(FullGameDto gameDto) {
                 new FullGameDto(
                        gameDto.registrationId(),
                        props.getName(),
+                        2,
+                        props.getAiStartGameEndpoint(),
+                        props.getStartGameEndpoint(),
                         props.getDescription(),
                         props.getPrice(),
                         gameDto.pictureUrl(),

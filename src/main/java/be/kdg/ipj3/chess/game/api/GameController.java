@@ -2,6 +2,7 @@ package be.kdg.ipj3.chess.game.api;
 
 import be.kdg.ipj3.chess.game.api.dto.GameCreatedDto;
 import be.kdg.ipj3.chess.game.api.dto.NewGameDto;
+import be.kdg.ipj3.chess.game.api.dto.NewGameRequestDto;
 import be.kdg.ipj3.chess.game.application.GameService;
 import be.kdg.ipj3.chess.player.domain.PlatformPlayerId;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +24,15 @@ public class GameController {
 
     private final GameService gameService;
 
-    @PostMapping("/local")
-    public ResponseEntity<GameCreatedDto> registerGameAgainstYourself(@AuthenticationPrincipal Jwt token){
+    @PostMapping()
+    public ResponseEntity<GameCreatedDto> registerGame(@AuthenticationPrincipal Jwt token, @RequestBody NewGameRequestDto newGameRequestDto){
         log.info("Starting a new game");
-        final var player1Id = PlatformPlayerId.fromToken(token);
-        final var state = gameService.registerGame(player1Id, null);
-        return ResponseEntity.ok(state);
-    }
-
-    @PostMapping("/online")
-    public ResponseEntity<GameCreatedDto> registerGameAgainstPlayer(@AuthenticationPrincipal Jwt token, @RequestBody NewGameDto newMatchDto){
-        log.info("Starting a new game");
-        final var player1Id = PlatformPlayerId.fromToken(token);
-        final var player2Id = new PlatformPlayerId(newMatchDto.opponentId());
-        final var state = gameService.registerGame(player1Id,player2Id);
+        newGameRequestDto.validate(PlatformPlayerId.fromToken(token).id());
+        final var playerId = new PlatformPlayerId(newGameRequestDto.player1Id());
+        final var state = gameService.registerGame(
+                playerId,
+                newGameRequestDto.player2Id() != null ? new PlatformPlayerId(newGameRequestDto.player2Id()) : playerId
+        );
         return ResponseEntity.ok(state);
     }
 }
